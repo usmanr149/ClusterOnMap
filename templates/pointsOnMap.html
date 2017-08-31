@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple markers</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 90%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <select hidden multiple id="points">
+      {% for key, value in id_latlon.items() %}
+        <option value="{{value}}" id="{{key}}">{{key}}</option>
+      {% endfor %}
+    </select>
+    <script>
+
+      function initMap(id_latlon) {
+
+        var wpts = document.getElementById("points");
+        var markers = [];
+
+        var uluru = {lat: 53.5413306, lng: -113.4952283};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: uluru
+        });
+
+        for (var i = 0; i < wpts.length; i++){
+          latlon = wpts[i].value.split(",")
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(parseFloat(latlon[0]), parseFloat(latlon[1])),
+            map: map
+          });
+        };
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVHgsC12acrHbhsDnYLLpC_ymUKCc4kdM&callback=initMap">
+    </script>
+  </body>
+</html>
